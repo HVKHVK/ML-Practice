@@ -7,7 +7,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
 import matplotlib.image as mpimg
 from pandas.plotting import scatter_matrix
-from sklearn.preprocessing import Imputer
+# from sklearn.preprocessing import Imputer
+from sklearn.impute import SimpleImputer
+
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
@@ -296,7 +298,7 @@ housing_num = housing.drop("ocean_proximity", axis=1)
 
 
 num_pipeline = Pipeline([
-        ('imputer', Imputer(strategy="median")),
+        ('imputer', SimpleImputer(strategy="median")),
         ('attribs_adder', CombinedAttributesAdder()),
         ('std_scaler', StandardScaler()),
     ])
@@ -320,7 +322,7 @@ cat_attribs = ["ocean_proximity"]
 
 num_pipeline = Pipeline([
         ('selector', DataFrameSelector(num_attribs)),
-        ('imputer', Imputer(strategy="median")),
+        ('imputer', SimpleImputer(strategy="median")),
         ('attribs_adder', CombinedAttributesAdder()),
         ('std_scaler', StandardScaler()),
     ])

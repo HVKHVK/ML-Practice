@@ -1,0 +1,3 @@
+
+SK - RandomForestRegressor= 3.5674562214895786
+Tensorflow - DNN = 3.615314099394506
