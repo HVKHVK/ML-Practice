@@ -15,6 +15,9 @@ type = "sk" # sk, tensor
 data = pd.read_table("Data/housing.data", delim_whitespace=True, header=None)
 data.columns = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV"]
 
+"""
+    LSTAT used as the result.
+"""
 # data.info()
 # print ("Description : \n\n", data.describe())
 data.hist(figsize=(20,15), color = 'green')

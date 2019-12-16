@@ -1,0 +1,23 @@
+Acceleration :
+    Epoch: 0, loss:223.3039,  mae:14.6899,  mse:223.3039,  val_loss:214.8458,  val_mae:14.1739,  val_mse:214.8458,
+    78/78 - 0s - loss: 1.8479 - mae: 1.0549 - mse: 1.8479
+MPG :
+    Epoch: 0, loss:593.5582,  mae:23.1456,  mse:593.5583,  val_loss:596.5363,  val_mae:23.1732,  val_mse:596.5363,
+    78/78 - 0s - loss: 6.5190 - mae: 2.0202 - mse: 6.5190
+Horsepower :
+    Epoch: 0, loss:12268.8270,  mae:104.2562,  mse:12268.8271,  val_loss:12311.3749,  val_mae:103.3768,  val_mse:12311.3750,
+    Epoch: 100, loss:106.3866,  mae:7.2796,  mse:106.3866,  val_loss:132.2930,  val_mae:8.6580,  val_mse:132.2930,
+    78/78 - 0s - loss: 137.8264 - mae: 7.7431 - mse: 137.8264
+Displacement :
+    Epoch: 0, loss:48426.7807,  mae:194.7989,  mse:48426.7852,  val_loss:50199.0226,  val_mae:194.8759,  val_mse:50199.0234,
+    Epoch: 100, loss:355.2664,  mae:13.4994,  mse:355.2664,  val_loss:422.9869,  val_mae:15.3599,  val_mse:422.9869,
+    78/78 - 0s - loss: 431.0303 - mae: 14.5574 - mse: 431.0303
+Weight :
+    Epoch: 0, loss:9607212.5817,  mae:2985.0786,  mse:9607213.0000,  val_loss:9800858.2540,  val_mae:3006.5530,  val_mse:9800858.0000,
+    Epoch: 100, loss:699649.1793,  mae:684.5079,  mse:699649.1250,  val_loss:756327.1706,  val_mae:710.5638,  val_mse:756327.1875,
+    Epoch: 200, loss:119783.5365,  mae:259.4236,  mse:119783.5391,  val_loss:192304.5258,  val_mae:305.2776,  val_mse:192304.5312,
+    Epoch: 300, loss:69252.8198,  mae:199.1642,  mse:69252.8203,  val_loss:110146.4591,  val_mae:235.7735,  val_mse:110146.4609,
+    Epoch: 400, loss:58260.7739,  mae:182.0246,  mse:58260.7773,  val_loss:81672.5725,  val_mae:210.7342,  val_mse:81672.5703,
+    Epoch: 500, loss:51975.3930,  mae:170.2257,  mse:51975.3945,  val_loss:70459.3867,  val_mae:196.6264,  val_mse:70459.3906,
+    Epoch: 600, loss:49169.9380,  mae:164.6274,  mse:49169.9414,  val_loss:64018.3101,  val_mae:187.5871,  val_mse:64018.3086,
+    78/78 - 0s - loss: 29749.9142 - mae: 134.3949 - mse: 29749.9141
