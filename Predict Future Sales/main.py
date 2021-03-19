@@ -14,7 +14,7 @@ print(group.info())
 
 typ = "nn"
 if typ == "nn":
-    msk = np.random.rand(len(group)) < 0.75
+    msk = np.random.rand(len(group)) < 0.8
     train = group[msk]
     validation = group[~msk]
 
@@ -30,9 +30,11 @@ if typ == "nn":
 
     model = keras.Sequential([
         layers.Dense(512, activation='relu', input_shape=[2]),
-        layers.Dense(1024, activation='relu'),
-        layers.Dense(1024, activation='relu'),
         layers.Dense(512, activation='relu'),
+        layers.Dense(512, activation='relu'),
+        layers.Dense(256, activation='relu'),
+        layers.Dense(128, activation='relu'),
+        layers.Dense(64, activation='relu'),
         layers.Dense(1),
     ])
     model.compile(
@@ -44,7 +46,7 @@ if typ == "nn":
         train_x, train_y,
         validation_data=(validation_x, validation_y),
         batch_size=256,
-        epochs=20,
+        epochs=10,
     )
 
     test_x = test_data[predict_columns]
@@ -56,4 +58,4 @@ if typ == "nn":
                      "item_cnt_month": predictions}
     submission = pd.DataFrame(submission_df)
 
-    submission.to_csv("submissions/submission_2.csv", index=False)
+    submission.to_csv("submissions/submission_5.csv", index=False)
