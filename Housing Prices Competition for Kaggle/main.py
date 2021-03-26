@@ -1,6 +1,9 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import tensorflow as tf
+
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 # Settings
 pd.set_option('display.max_rows', None)
@@ -80,7 +83,7 @@ col = list(set(cat_colm_train).intersection(cat_colm_test))
 predict_columns = corr_columns#['LotFrontage', 'OverallQual', 'GrLivArea', 'Age', 'MasVnrArea', 'TotalSF',  'FullBath', 'HasGarage', 'TotalPorchSF', 'HasFireplace']
 predict_columns = predict_columns + col
 
-typ = "for"
+typ = "nn"
 
 from sklearn.ensemble import RandomForestRegressor as RFR
 from sklearn.model_selection import GridSearchCV
@@ -145,13 +148,13 @@ if typ == "nn":
         optimizer='adam',
         loss='mse',
     )
-
-    history = model.fit(
-        train_x, train_y,
-        validation_data=(validation_x, validation_y),
-        batch_size=256,
-        epochs=50,
-    )
+    with tf.device('/gpu:0'):
+        history = model.fit(
+            train_x, train_y,
+            validation_data=(validation_x, validation_y),
+            batch_size=256,
+            epochs=50,
+        )
 
     test_x = test_data[predict_columns]
     predictions = model.predict(test_x)

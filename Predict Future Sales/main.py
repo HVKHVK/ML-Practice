@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
+import tensorflow as tf
 pd.set_option('display.max_rows', None)
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 train_data = pd.read_csv("Data/sales_train.csv")
 test_data = pd.read_csv("Data/test.csv")
@@ -29,12 +31,11 @@ if typ == "nn":
     from tensorflow.keras import layers
 
     model = keras.Sequential([
-        layers.Dense(512, activation='relu', input_shape=[2]),
-        layers.Dense(512, activation='relu'),
-        layers.Dense(512, activation='relu'),
-        layers.Dense(256, activation='relu'),
-        layers.Dense(128, activation='relu'),
-        layers.Dense(64, activation='relu'),
+        layers.Dense(4, activation='relu', input_shape=[2]),
+        layers.Dense(16, activation='relu'),
+        layers.Dense(16, activation='relu'),
+        layers.Dense(8, activation='relu'),
+        layers.Dense(2, activation='relu'),
         layers.Dense(1),
     ])
     model.compile(
@@ -58,4 +59,4 @@ if typ == "nn":
                      "item_cnt_month": predictions}
     submission = pd.DataFrame(submission_df)
 
-    submission.to_csv("submissions/submission_5.csv", index=False)
+    submission.to_csv("submissions/submission_7.csv", index=False)
