@@ -2,8 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import tensorflow as tf
-
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+import numpy as np
 
 # Settings
 pd.set_option('display.max_rows', None)
@@ -56,17 +55,49 @@ train_data_corr = train_data.corr()
 
 corr_columns = []
 for i in train_data_corr:
-    if train_data_corr[i]['SalePrice'] > 0.3:
+    if abs(train_data_corr[i]['SalePrice']) > 0.05:
         innerName = train_data_corr[i].name
         if innerName != 'SalePrice':
             corr_columns.append(innerName)
 
+from scipy import stats
+
+train_data_num = train_data.select_dtypes(include="number")
+train_data_oth = train_data.select_dtypes(exclude="number")
+
+z_scores = stats.zscore(train_data_num)
+abs_z_scores = np.abs(z_scores)
+filtered_entries = (abs_z_scores < 3).all(axis=1)
+train_data_num = train_data_num[filtered_entries]
+
+train_data = pd.concat([train_data_num, train_data_oth], axis=1)
+
+train_data = train_data.dropna()
 # print(corr_columns)
 # print(train_data.info())
+# ax = sns.boxplot(x='MSZoning', y='SalePrice', data=train_data, color='#99c2a2')
+# plt.savefig("Plots/Mszoning_box.png")
+#
+# fig, ax = plt.subplots()
+# fig.set_size_inches(20, 20)
+# ax = sns.boxplot(x='Neighborhood', y='SalePrice', data=train_data, color='#99c2a2')
+# ax.set_xticklabels(ax.get_xticklabels(),rotation=90)
+# plt.savefig("Plots/Neighborhood.png")
+
+# import statsmodels.api as sm
+# from statsmodels.formula.api import ols
+#
+# model = ols('SalePrice ~ C(MSZoning)', data=train_data).fit()
+# anova_table = sm.stats.anova_lm(model, typ=2)
+# print(anova_table)
+# model = ols('SalePrice ~ C(Neighborhood)', data=train_data).fit()
+# anova_table = sm.stats.anova_lm(model, typ=2)
+# print(anova_table)
 
 df = pd.get_dummies(train_data["MSZoning"])
 train_data = pd.concat([train_data, df], axis=1)
 cat_colm_train = list(df.columns)
+
 df = pd.get_dummies(train_data["Neighborhood"])
 train_data = pd.concat([train_data, df], axis=1)
 cat_colm_train = cat_colm_train + list(df.columns)
@@ -83,7 +114,7 @@ col = list(set(cat_colm_train).intersection(cat_colm_test))
 predict_columns = corr_columns#['LotFrontage', 'OverallQual', 'GrLivArea', 'Age', 'MasVnrArea', 'TotalSF',  'FullBath', 'HasGarage', 'TotalPorchSF', 'HasFireplace']
 predict_columns = predict_columns + col
 
-typ = "nn"
+typ = "for"
 
 from sklearn.ensemble import RandomForestRegressor as RFR
 from sklearn.model_selection import GridSearchCV
@@ -93,20 +124,17 @@ if typ == "for":
     train_y = train_data["SalePrice"]
 
     # Tune parameters
-    search_params = {
-        'n_estimators'      : [23, 24, 25],
-        'max_features'      : [i for i in range(1, train_x.shape[1])],
-        'n_jobs'            : [1],
-        'min_samples_split' : [3, 4, 5, 6],
-        'max_depth'         : [22, 23, 24]
-    }
+    search_params =[
+        {'n_estimators': [40, 50, 60, 70, 80, 90, 100], 'max_features': [30, 35, 40], 'min_samples_split': [3, 5], 'max_depth': [10, 20, 30, 40, 50]},
+    ]
 
     model = GridSearchCV(
         RFR(),
         search_params,
         cv = 5,
-        n_jobs = -1,
-        verbose=True
+        n_jobs =-1,
+        scoring='neg_root_mean_squared_error',
+        verbose=4
     )
 
     model.fit(train_x, train_y)
@@ -121,7 +149,7 @@ if typ == "for":
                      "SalePrice": predictions}
     submission = pd.DataFrame(submission_df)
 
-    submission.to_csv("submissions/submission8.csv", index=False)
+    submission.to_csv("submissions/submission19.csv", index=False)
 
 if typ == "nn":
     train = train_data.iloc[:900,:]
