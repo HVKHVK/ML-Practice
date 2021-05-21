@@ -114,7 +114,7 @@ col = list(set(cat_colm_train).intersection(cat_colm_test))
 predict_columns = corr_columns#['LotFrontage', 'OverallQual', 'GrLivArea', 'Age', 'MasVnrArea', 'TotalSF',  'FullBath', 'HasGarage', 'TotalPorchSF', 'HasFireplace']
 predict_columns = predict_columns + col
 
-typ = "for"
+typ = "nn"
 
 from sklearn.ensemble import RandomForestRegressor as RFR
 from sklearn.model_selection import GridSearchCV
